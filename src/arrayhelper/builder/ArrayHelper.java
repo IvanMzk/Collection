@@ -1,9 +1,14 @@
 package arrayhelper.builder;
 
+import arrayhelper.exception.NullArrayRefException;
+
 import java.util.Arrays;
 import java.util.Comparator;
-import arrayhelper.exception.NullArrayRefException;
-import static arrayhelper.exception.NullArrayRefException.*;
+
+import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_LREF_MES_EXCEPTION;
+import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_REF_ECODE_EXCEPTION;
+import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_REF_MES_EXCEPTION;
+import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_RREF_MES_EXCEPTION;
 
 /**
  * Created by ivann on 20.04.15.
@@ -20,7 +25,8 @@ public class ArrayHelper {
 
     public PojoNumber[] arraysMerge(PojoNumber[] lArray, PojoNumber[] rArray) throws NullArrayRefException
     {
-
+        //local code review (vtegza): use automatic code formatter @ 21.04.15
+        //local code review (vtegza): conside check object == null @ 21.04.15
         if (null == lArray && null == rArray)
         {throw new NullArrayRefException(NULL_ARRAY_REF_MES_EXCEPTION,NULL_ARRAY_REF_ECODE_EXCEPTION);}
         if (null == lArray)
@@ -45,7 +51,7 @@ public class ArrayHelper {
                 rIndex++;
             }
         }
-
+        //local code review (vtegza): no need for null here, inline it @ 21.04.15
         PojoNumber[] resultArray = null;
         resultArray = Arrays.copyOfRange(tmpArray, 0, rIndex);
 

@@ -6,6 +6,7 @@ package arrayhelper.builder;
 final public class PojoNumber implements Comparable<PojoNumber> {
 
     private final int number;   //mandatory
+    //local code review (vtegza): should be final, if no value setted it would be null @ 21.04.15
     private String name;        //optional
 
     private PojoNumber(PojoNumberBuilder builder)

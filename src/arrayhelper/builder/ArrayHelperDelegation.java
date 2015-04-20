@@ -1,11 +1,13 @@
 package arrayhelper.builder;
 
 import arrayhelper.exception.InvalidDataException;
-import static arrayhelper.exception.InvalidDataException.*;
 import arrayhelper.exception.NullArrayRefException;
 
-
 import java.util.Arrays;
+
+import static arrayhelper.exception.InvalidDataException.INVALID_DATA_ECODE_EXCEPTION;
+import static arrayhelper.exception.InvalidDataException.INVALID_DATA_EMPTY_NAME_EXCEPTION;
+import static arrayhelper.exception.InvalidDataException.INVALID_DATA_UNDEF_NAME_EXCEPTION;
 
 /**
  * Created by ivann on 20.04.15.
@@ -23,6 +25,7 @@ public class ArrayHelperDelegation {
         if (null != lArray) {
             for (PojoNumber item : lArray) {
                 String name = item.getName();
+                //local code review (vtegza): comapre strings with equals @ 21.04.15
                 if ("" == name) {
                     throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
                 }
@@ -35,6 +38,7 @@ public class ArrayHelperDelegation {
         if (null != rArray) {
             for (PojoNumber item : rArray) {
                 String name = item.getName();
+                //local code review (vtegza): comapre strings with equals @ 21.04.15
                 if ("" == name) {
                     throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
                 }

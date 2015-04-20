@@ -5,6 +5,7 @@ package arrayhelper.exception;
  */
 public class InvalidDataException extends Exception {
 
+    //local code review (vtegza): put messages to the place where the are acually used @ 21.04.15
     public static final String INVALID_DATA_ECODE_EXCEPTION = "Invalid data";
     public static final String INVALID_DATA_EMPTY_NAME_EXCEPTION = "Field name is empty";
     public static final String INVALID_DATA_UNDEF_NAME_EXCEPTION = "Field name is null";

@@ -1,6 +1,8 @@
 package arrayhelper.builder;
 
 
+import arrayhelper.exception.InvalidDataException;
+import arrayhelper.exception.NullArrayRefException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,12 +12,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 
-import static org.junit.Assert.*;
-
-import arrayhelper.exception.NullArrayRefException;
-import arrayhelper.exception.InvalidDataException;
-import static arrayhelper.exception.NullArrayRefException.*;
-import static arrayhelper.exception.InvalidDataException.*;
+import static arrayhelper.exception.InvalidDataException.INVALID_DATA_ECODE_EXCEPTION;
+import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_REF_ECODE_EXCEPTION;
+import static org.junit.Assert.fail;
 
 @RunWith(Parameterized.class)
 public class ArrayHelperDelegationTest {
@@ -38,6 +37,7 @@ public class ArrayHelperDelegationTest {
         this.expectedErrorCode = expectedErrorCode;
     }
 
+    //local code review (vtegza): method names should always start with lover case symbol @ 21.04.15
     private String GetNumberName(int number){
         if (number <= NUMBER_NAME_LEN)
             return NUMBER_NAME[number-1];
@@ -119,13 +119,14 @@ public class ArrayHelperDelegationTest {
         //init class to test
         ArrayHelper resource = new ArrayHelper();
         ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
-
+//local code review (vtegza): you should not have any logic in you tests, separate it to different test methods @ 21.04.15
         if (null != lArray && null != rArray) {
             if (!hasInvalidData(lArray) && !hasInvalidData(rArray)) {
                 //init expected value
                 PojoNumber[] expectedValue = GetTestArray(this.expectedValue);
 
                 //ivoke method on class to test
+                //local code review (vtegza): only one method call per test method @ 21.04.15
                 PojoNumber[] returnedValue = testClass.arraysMerge(lArray, rArray);
 
                 //assert returned value
@@ -151,6 +152,7 @@ public class ArrayHelperDelegationTest {
                 fail("Exception should be thrown");
             }
             catch(NullArrayRefException e){
+                //local code review (vtegza): use static import @ 21.04.15
                 Assert.assertEquals(e.getErrorCode(), expectedValue);
                 System.out.println(e.getErrorMessage());
             }
