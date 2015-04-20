@@ -1,5 +1,6 @@
 package arrayhelper.builder;
 
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +11,11 @@ import java.util.Collection;
 import java.util.Comparator;
 
 import static org.junit.Assert.*;
+
 import arrayhelper.exception.NullArrayRefException;
+import arrayhelper.exception.InvalidDataException;
+import static arrayhelper.exception.NullArrayRefException.*;
+import static arrayhelper.exception.InvalidDataException.*;
 
 @RunWith(Parameterized.class)
 public class ArrayHelperDelegationTest {
@@ -75,15 +80,29 @@ public class ArrayHelperDelegationTest {
 
     }
 
+    private boolean hasInvalidData(PojoNumber[] array)
+    {
+        for (PojoNumber item : array) {
+            String name = item.getName();
+            if ("" == name || null == name) {return true;}
+        }
+        return false;
+    }
+
     @Parameterized.Parameters
     public static Collection<Object[]> data(){
 
         Object[][] data = new Object[][]{
-                {new int[]{1, 5, 4, 23, 65, 32, 78, 200}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,200}, null},
+                {new int[]{1, 5, 4, 23, 65, 32, 78}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45}, null},
                 {new int[]{}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32}, null},
                 {new int[]{1, 5, 4, 23, 65, 32, 78}, new int[]{}, new int[]{1, 5, 4, 23, 65, 32, 78}, null},
-                {null, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, null, "Wrong parameter"},
-                {new int[]{1, 5, 4, 23, 65, 32, 78}, null,  null, "Wrong parameter"}
+                {null, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, null, NULL_ARRAY_REF_ECODE_EXCEPTION},
+                {new int[]{1, 5, 4, 23, 65, 32, 78}, null,  null, NULL_ARRAY_REF_ECODE_EXCEPTION},
+                {new int[]{1, 5, 4, 23, 65, 32, 78,102}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,102}, INVALID_DATA_ECODE_EXCEPTION},
+                {new int[]{1, 5, 4, 23, 65, 32, 78}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24,102}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,102}, INVALID_DATA_ECODE_EXCEPTION},
+                {new int[]{1, 5, 4, 23, 65, 32, 78}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24,202}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,202}, INVALID_DATA_ECODE_EXCEPTION},
+                {new int[]{1, 5, 4, 23, 65, 32, 78,202}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,202}, INVALID_DATA_ECODE_EXCEPTION},
+
         };
 
         return Arrays.asList(data);
@@ -102,14 +121,27 @@ public class ArrayHelperDelegationTest {
         ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
 
         if (null != lArray && null != rArray) {
-            //init expected value
-            PojoNumber[] expectedValue = GetTestArray(this.expectedValue);
+            if (!hasInvalidData(lArray) && !hasInvalidData(rArray)) {
+                //init expected value
+                PojoNumber[] expectedValue = GetTestArray(this.expectedValue);
 
-            //ivoke method on class to test
-            PojoNumber[] returnedValue = testClass.arraysMerge(lArray, rArray);
+                //ivoke method on class to test
+                PojoNumber[] returnedValue = testClass.arraysMerge(lArray, rArray);
 
-            //assert returned value
-            Assert.assertTrue(CompareTestArrays(returnedValue, expectedValue));
+                //assert returned value
+                Assert.assertTrue(CompareTestArrays(returnedValue, expectedValue));
+            }
+            else{
+                String expectedValue = this.expectedErrorCode;
+                try{
+                    PojoNumber[] returnedValue = testClass.arraysMerge(lArray, rArray);
+                    fail("Exception should be thrown");
+                }
+                catch(InvalidDataException e){
+                    Assert.assertEquals(e.getErrorCode(), expectedValue);
+                    System.out.println(e.getErrorMessage());
+                }
+            }
         }
         else
         {
@@ -120,6 +152,7 @@ public class ArrayHelperDelegationTest {
             }
             catch(NullArrayRefException e){
                 Assert.assertEquals(e.getErrorCode(), expectedValue);
+                System.out.println(e.getErrorMessage());
             }
 
         }
