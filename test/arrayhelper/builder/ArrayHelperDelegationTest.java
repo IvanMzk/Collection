@@ -19,10 +19,10 @@ import static org.junit.Assert.fail;
 @RunWith(Parameterized.class)
 public class ArrayHelperDelegationTest {
 
-    private int[] lArray;
-    private int[] rArray;
-    private int[] expectedValue;
-    private String expectedErrorCode;
+    protected int[] lArray;
+    protected int[] rArray;
+    protected int[] expectedValue;
+    protected String expectedErrorCode;
 
     private static final String[] NUMBER_NAME = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
     private static final int NUMBER_NAME_LEN = NUMBER_NAME.length;
@@ -52,7 +52,7 @@ public class ArrayHelperDelegationTest {
 
     }
 
-    private PojoNumber[] GetTestArray(int[] array){
+    protected PojoNumber[] GetTestArray(int[] array){
 
         if (null != array) {
             int i = 0;
@@ -70,7 +70,7 @@ public class ArrayHelperDelegationTest {
 
     }
 
-    private boolean CompareTestArrays(PojoNumber[] test, PojoNumber[] etalon){
+    protected boolean CompareTestArrays(PojoNumber[] test, PojoNumber[] etalon){
 
         Comparator<PojoNumber> comparator = new NumberComparator();
         Arrays.sort(test, comparator);
@@ -80,7 +80,7 @@ public class ArrayHelperDelegationTest {
 
     }
 
-    private boolean hasInvalidData(PojoNumber[] array)
+    protected boolean hasInvalidData(PojoNumber[] array)
     {
         for (PojoNumber item : array) {
             String name = item.getName();

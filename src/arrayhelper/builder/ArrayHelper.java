@@ -2,8 +2,11 @@ package arrayhelper.builder;
 
 import arrayhelper.exception.NullArrayRefException;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 
 import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_LREF_MES_EXCEPTION;
 import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_REF_ECODE_EXCEPTION;
@@ -57,6 +60,29 @@ public class ArrayHelper {
 
         Arrays.sort(resultArray, numberComparator);
         return deleteDublicates(resultArray);
+    }
+
+
+
+    public HashSet<PojoNumber> arraysInnerUnion(PojoNumber[] lArray, PojoNumber[] rArray) throws NullArrayRefException
+    {
+        if (null == lArray && null == rArray)
+        {throw new NullArrayRefException(NULL_ARRAY_REF_MES_EXCEPTION,NULL_ARRAY_REF_ECODE_EXCEPTION);}
+        if (null == lArray)
+        {throw new NullArrayRefException(NULL_ARRAY_LREF_MES_EXCEPTION,NULL_ARRAY_REF_ECODE_EXCEPTION);}
+        if (null == rArray)
+        {throw new NullArrayRefException(NULL_ARRAY_RREF_MES_EXCEPTION,NULL_ARRAY_REF_ECODE_EXCEPTION);}
+
+
+        HashSet<PojoNumber> result = new HashSet(Arrays.asList(lArray));
+        for(PojoNumber item:rArray)
+        {
+            result.add(item);
+        }
+
+
+        return result;
+
     }
 
     /**
