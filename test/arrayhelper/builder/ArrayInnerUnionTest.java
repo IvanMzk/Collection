@@ -75,7 +75,7 @@ public class ArrayInnerUnionTest {
 
         //ivoke method on class to test
         //local code review (vtegza): only one method call per test method @ 21.04.15
-        HashSet<PojoNumber> returnedValue = testClass.arraysInnerUnion(lArray, rArray);
+        HashSet<PojoNumber> returnedValue = testClass.arraysInnerUnion(Arrays.asList(lArray), Arrays.asList(rArray));
                 //assert returned value
         Assert.assertTrue(expectedValue.equals(returnedValue));
 

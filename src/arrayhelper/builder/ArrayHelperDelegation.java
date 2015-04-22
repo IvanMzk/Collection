@@ -4,6 +4,7 @@ import arrayhelper.exception.InvalidDataException;
 import arrayhelper.exception.NullArrayRefException;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 
 import static arrayhelper.exception.InvalidDataException.INVALID_DATA_ECODE_EXCEPTION;
@@ -15,7 +16,7 @@ import static arrayhelper.exception.InvalidDataException.INVALID_DATA_UNDEF_NAME
  */
 public class ArrayHelperDelegation {
 
-    private final ArrayHelper arrayHelper;
+    private final ArrayHelper<PojoNumber> arrayHelper;
 
     public ArrayHelperDelegation(ArrayHelper arrayHelper) {
         this.arrayHelper = arrayHelper;
@@ -63,7 +64,7 @@ public class ArrayHelperDelegation {
     }
 
 
-    public HashSet<PojoNumber> arraysInnerUnion(PojoNumber[] lArray, PojoNumber[] rArray)  throws NullArrayRefException, InvalidDataException
+    public HashSet<PojoNumber> arraysInnerUnion(Collection<PojoNumber> lArray, Collection<PojoNumber> rArray)  throws NullArrayRefException, InvalidDataException
     {
 
         if (null != lArray) {
@@ -93,9 +94,9 @@ public class ArrayHelperDelegation {
         }
 
         System.out.println("Left array:");
-        System.out.println(Arrays.toString(lArray));
+        System.out.println(lArray.toString());
         System.out.println("Right array:");
-        System.out.println(Arrays.toString(rArray));
+        System.out.println(rArray.toString());
 
         HashSet<PojoNumber> result = arrayHelper.arraysInnerUnion(lArray, rArray);
 

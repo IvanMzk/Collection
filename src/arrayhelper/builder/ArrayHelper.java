@@ -3,10 +3,7 @@ package arrayhelper.builder;
 import arrayhelper.exception.NullArrayRefException;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.*;
 
 import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_LREF_MES_EXCEPTION;
 import static arrayhelper.exception.NullArrayRefException.NULL_ARRAY_REF_ECODE_EXCEPTION;
@@ -64,22 +61,17 @@ public class ArrayHelper<T> {
 
 
 
-    public HashSet<T> arraysInnerUnion(T[] lArray, T[] rArray) throws NullArrayRefException
+    public HashSet<T> arraysInnerUnion(Collection<T> lCollection, Collection<T> rCollection) throws NullArrayRefException
     {
-        if (null == lArray && null == rArray)
+        if (null == lCollection && null == rCollection)
         {throw new NullArrayRefException(NULL_ARRAY_REF_MES_EXCEPTION,NULL_ARRAY_REF_ECODE_EXCEPTION);}
-        if (null == lArray)
+        if (null == lCollection)
         {throw new NullArrayRefException(NULL_ARRAY_LREF_MES_EXCEPTION,NULL_ARRAY_REF_ECODE_EXCEPTION);}
-        if (null == rArray)
+        if (null == rCollection)
         {throw new NullArrayRefException(NULL_ARRAY_RREF_MES_EXCEPTION,NULL_ARRAY_REF_ECODE_EXCEPTION);}
 
-
-
-        HashSet<T> result = new HashSet(Arrays.asList(lArray));
-        result.retainAll(Arrays.asList(rArray));
-
-
-
+        HashSet<T> result = new HashSet(lCollection);
+        result.retainAll(rCollection);
 
         return result;
 
@@ -92,7 +84,7 @@ public class ArrayHelper<T> {
      */
 
 
-    @SuppressWarnings({"unchecked"})
+    //@SuppressWarnings({"unchecked"})
     private T[] deleteDublicates(T[] array) throws NullArrayRefException
     {
 
@@ -105,10 +97,9 @@ public class ArrayHelper<T> {
         {
             int tmpIndex = 0;
             boolean isEqualsSequence = false;
-            //T[] tmpArray = new T[length];
-            Class newType = array.getClass();
-            Class elementType = newType.getComponentType();
-            T[] tmpArray = Array.newInstance(elementType,length);
+            Class type = array.getClass();
+            Class elementType = type.getComponentType();
+            T[] tmpArray = (T[]) Array.newInstance(elementType,length);
 
             for (int i = 0; i < length-1; i++) {
                 if (array[i].equals(array[i+1]))
@@ -150,8 +141,5 @@ public class ArrayHelper<T> {
         }
         else {return array;}
     }
-
-    private T[] new
-    
 
 }
