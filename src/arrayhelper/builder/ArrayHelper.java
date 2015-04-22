@@ -74,11 +74,11 @@ public class ArrayHelper {
         {throw new NullArrayRefException(NULL_ARRAY_RREF_MES_EXCEPTION,NULL_ARRAY_REF_ECODE_EXCEPTION);}
 
 
+
         HashSet<PojoNumber> result = new HashSet(Arrays.asList(lArray));
-        for(PojoNumber item:rArray)
-        {
-            result.add(item);
-        }
+        result.retainAll(Arrays.asList(rArray));
+
+
 
 
         return result;
