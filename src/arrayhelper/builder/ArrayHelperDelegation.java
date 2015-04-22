@@ -106,11 +106,6 @@ public class ArrayHelperDelegation {
 
     public static void main(String[] args) {
 
-        //ArrayHelper resource = new ArrayHelper();
-        //ArrayHelperDelegation arrayHelperDelegation = new ArrayHelperDelegation(resource);
-
-
-
 
     }
 
