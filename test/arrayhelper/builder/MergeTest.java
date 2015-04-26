@@ -1,27 +1,21 @@
 package arrayhelper.builder;
 
+import arrayhelper.exception.InvalidDataException;
+import arrayhelper.exception.NullArrayRefException;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 /**
  * Created by ivan on 26.04.2015.
  */
 public class MergeTest {
-
-    /*
-    Object[][] data = new Object[][]{
-            {new int[]{1, 5, 4, 23, 65, 32, 78}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45}, null},
-            {new int[]{}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32}, null},
-            {new int[]{1, 5, 4, 23, 65, 32, 78}, new int[]{}, new int[]{1, 5, 4, 23, 65, 32, 78}, null},
-            {null, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, null, NULL_ARRAY_REF_ECODE_EXCEPTION},
-            {new int[]{1, 5, 4, 23, 65, 32, 78}, null,  null, NULL_ARRAY_REF_ECODE_EXCEPTION},
-            {new int[]{1, 5, 4, 23, 65, 32, 78,102}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,102}, INVALID_DATA_ECODE_EXCEPTION},
-            {new int[]{1, 5, 4, 23, 65, 32, 78}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24,102}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,102}, INVALID_DATA_ECODE_EXCEPTION},
-            {new int[]{1, 5, 4, 23, 65, 32, 78}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24,202}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,202}, INVALID_DATA_ECODE_EXCEPTION},
-            {new int[]{1, 5, 4, 23, 65, 32, 78,202}, new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24}, new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45,202}, INVALID_DATA_ECODE_EXCEPTION},
-
-    };
-*/
 
     private static final String[] NUMBER_NAME = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
     private static final int NUMBER_NAME_LEN = NUMBER_NAME.length;
@@ -61,4 +55,233 @@ public class MergeTest {
             return null;
 
     }
+
+    @Test
+    public void testMerge() throws Exception
+    {
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        HashSet<PojoNumber> expectedValue = new HashSet<PojoNumber>(getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78, 3, 24, 54, 2, 34, 45}));
+
+        //ivoke method on class to test
+        HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+        //assert returned value
+        assertTrue(expectedValue.equals(returnedValue));
+
+    }
+
+    @Test
+    public void testMergeLeftEmpty() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        HashSet<PojoNumber> expectedValue = new HashSet<PojoNumber>(getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32}));
+
+        //ivoke method on class to test
+        HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+        //assert returned value
+        assertTrue(expectedValue.equals(returnedValue));
+    }
+
+    @Test
+    public void testMergeRightEmpty() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1,5,4,23,65,32,78,1});
+        Collection rArray = getTestCollection(new int[]{});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        HashSet<PojoNumber> expectedValue = new HashSet<PojoNumber>(getTestCollection(new int[]{1,5,4,23,65,32,78}));
+
+        //ivoke method on class to test
+        HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+        //assert returned value
+        assertTrue(expectedValue.equals(returnedValue));
+    }
+
+
+    @Test
+    public void testMergeLeftNull() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(null);
+        Collection rArray = getTestCollection(new int[]{3,5,24,4,1,2,34,45,32,5,32});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Wrong parameter";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(NullArrayRefException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+        }
+    }
+
+    @Test
+    public void testMergeRightNull() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[] {1,5,4,23,65,32,78,1});
+        Collection rArray = getTestCollection(null);
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Wrong parameter";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(NullArrayRefException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+        }
+    }
+
+    @Test
+    public void testMergeEmptyFieldInLeft() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78,102});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Invalid data";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(InvalidDataException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+
+        }
+    }
+
+    @Test
+    public void testMergeEmptyFieldInRight() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24,102});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Invalid data";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(InvalidDataException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+
+        }
+    }
+
+    @Test
+    public void testMergeNullFieldInLeft() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78,202});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Invalid data";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(InvalidDataException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+
+        }
+    }
+
+    @Test
+    public void testMergeNullFieldInRight() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24,202});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Invalid data";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.merge(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(InvalidDataException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+
+        }
+    }
+
 }

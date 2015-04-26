@@ -1,11 +1,15 @@
 package arrayhelper.builder;
 
+import arrayhelper.exception.InvalidDataException;
+import arrayhelper.exception.NullArrayRefException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+
+import static junit.framework.Assert.*;
 
 /**
  * Created by ivan on 26.04.2015.
@@ -67,10 +71,221 @@ public class InnerUnionTest {
         HashSet<PojoNumber> expectedValue = new HashSet<PojoNumber>(getTestCollection(new int[]{5,4,32,1}));
 
         //ivoke method on class to test
-        //local code review (vtegza): only one method call per test method @ 21.04.15
         HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
         //assert returned value
-        Assert.assertTrue(expectedValue.equals(returnedValue));
+        assertTrue(expectedValue.equals(returnedValue));
 
     }
+
+    @Test
+    public void testInnerUnionLeftEmpty() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{});
+        Collection rArray = getTestCollection(new int[]{3,5,24,4,1,2,34,45,32,5,32});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        HashSet<PojoNumber> expectedValue = new HashSet<PojoNumber>(getTestCollection(new int[]{}));
+
+        //ivoke method on class to test
+        HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
+        //assert returned value
+        assertTrue(expectedValue.equals(returnedValue));
+    }
+
+    @Test
+    public void testInnerUnionRightEmpty() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1,5,4,23,65,32,78,1});
+        Collection rArray = getTestCollection(new int[]{});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        HashSet<PojoNumber> expectedValue = new HashSet<PojoNumber>(getTestCollection(new int[]{}));
+
+        //ivoke method on class to test
+        HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
+        //assert returned value
+        assertTrue(expectedValue.equals(returnedValue));
+    }
+
+
+    @Test
+     public void testInnerUnionLeftNull() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(null);
+        Collection rArray = getTestCollection(new int[]{3,5,24,4,1,2,34,45,32,5,32});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Wrong parameter";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(NullArrayRefException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+        }
+    }
+
+    @Test
+    public void testInnerUnionRightNull() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[] {1,5,4,23,65,32,78,1});
+        Collection rArray = getTestCollection(null);
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Wrong parameter";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(NullArrayRefException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+        }
+    }
+
+    @Test
+    public void testInnerUnionEmptyFieldInLeft() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78,102});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Invalid data";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(InvalidDataException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+
+        }
+    }
+
+    @Test
+    public void testInnerUnionEmptyFieldInRight() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24,102});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Invalid data";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(InvalidDataException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+
+        }
+    }
+
+    @Test
+    public void testInnerUnionNullFieldInLeft() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78,202});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Invalid data";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(InvalidDataException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+
+        }
+    }
+
+    @Test
+    public void testInnerUnionNullFieldInRight() throws Exception {
+
+        //init input variables
+        Collection lArray = getTestCollection(new int[]{1, 5, 4, 23, 65, 32, 78});
+        Collection rArray = getTestCollection(new int[]{3, 5, 24, 54, 1, 2, 34, 45, 32, 24,202});
+
+        //init class to test
+        ArrayHelper resource = new ArrayHelper();
+        ArrayHelperDelegation testClass = new ArrayHelperDelegation(resource);
+
+        //init expected value
+        String expectedValue = "Invalid data";
+
+        //ivoke method on class to test
+        try {
+            HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
+            fail("Exception expected");
+        }
+        catch(InvalidDataException e)
+        {
+            //assert returned value
+            System.out.println(e.getErrorMessage());
+            assertTrue(expectedValue.equals(e.getErrorCode()));
+
+        }
+    }
+
+
+
+
+
 }
