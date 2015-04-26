@@ -7,14 +7,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-import static arrayhelper.exception.InvalidDataException.INVALID_DATA_ECODE_EXCEPTION;
-import static arrayhelper.exception.InvalidDataException.INVALID_DATA_EMPTY_NAME_EXCEPTION;
-import static arrayhelper.exception.InvalidDataException.INVALID_DATA_UNDEF_NAME_EXCEPTION;
 
 /**
  * Created by ivann on 20.04.15.
  */
 public class ArrayHelperDelegation {
+
+    private static final String INVALID_DATA_ECODE_EXCEPTION = "Invalid data";
+    private static final String INVALID_DATA_EMPTY_NAME_EXCEPTION = "Field name is empty";
+    private static final String INVALID_DATA_UNDEF_NAME_EXCEPTION = "Field name is null";
 
     private final ArrayHelper<PojoNumber> arrayHelper;
 
@@ -22,55 +23,12 @@ public class ArrayHelperDelegation {
         this.arrayHelper = arrayHelper;
     }
 
-    public PojoNumber[] arraysMerge(PojoNumber[] lArray, PojoNumber[] rArray) throws NullArrayRefException, InvalidDataException
-    {
-        if (null != lArray) {
-            for (PojoNumber item : lArray) {
-                String name = item.getName();
-                //local code review (vtegza): comapre strings with equals @ 21.04.15
-                if ("" == name) {
-                    throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
-                }
-                if (null == name) {
-                    throw new InvalidDataException(INVALID_DATA_UNDEF_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
-                }
-            }
-        }
-
-        if (null != rArray) {
-            for (PojoNumber item : rArray) {
-                String name = item.getName();
-                //local code review (vtegza): comapre strings with equals @ 21.04.15
-                if ("" == name) {
-                    throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
-                }
-                if (null == name) {
-                    throw new InvalidDataException(INVALID_DATA_UNDEF_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
-                }
-            }
-        }
-
-
-        System.out.println("Left array:");
-        System.out.println(Arrays.toString(lArray));
-        System.out.println("Right array:");
-        System.out.println(Arrays.toString(rArray));
-
-        PojoNumber[] result = arrayHelper.arraysMerge(lArray, rArray);
-
-        System.out.println("Result array:");
-        System.out.println(Arrays.toString(result));
-        return result;
-    }
-
-
-    public HashSet<PojoNumber> arraysInnerUnion(Collection<PojoNumber> lArray, Collection<PojoNumber> rArray)  throws NullArrayRefException, InvalidDataException
+    public HashSet<PojoNumber> merge(Collection<PojoNumber> lCollection, Collection<PojoNumber> rCollection)  throws NullArrayRefException, InvalidDataException
     {
 
-        if (null != lArray) {
-            for (PojoNumber item : lArray) {
+        if (null != lCollection) {
+            for (PojoNumber item : lCollection) {
                 String name = item.getName();
-                //local code review (vtegza): comapre strings with equals @ 21.04.15
                 if (name.equals("")) {
                     throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
                 }
@@ -80,11 +38,10 @@ public class ArrayHelperDelegation {
             }
         }
 
-        if (null != rArray) {
-            for (PojoNumber item : rArray) {
+        if (null != rCollection) {
+            for (PojoNumber item : rCollection) {
                 String name = item.getName();
-                //local code review (vtegza): comapre strings with equals @ 21.04.15
-                if ("" == name) {
+                if (name.equals("")) {
                     throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
                 }
                 if (null == name) {
@@ -93,16 +50,100 @@ public class ArrayHelperDelegation {
             }
         }
 
-        System.out.println("Left array:");
-        System.out.println(lArray.toString());
-        System.out.println("Right array:");
-        System.out.println(rArray.toString());
+        System.out.println("Left data:");
+        System.out.println(lCollection.toString());
+        System.out.println("Right data:");
+        System.out.println(rCollection.toString());
 
-        HashSet<PojoNumber> result = arrayHelper.arraysInnerUnion(lArray, rArray);
+        HashSet<PojoNumber> result = arrayHelper.merge(lCollection, rCollection);
 
+        System.out.println("Result data:");
         System.out.println(result.toString());
         return result;
     }
+
+
+
+    public HashSet<PojoNumber> innerUnion(Collection<PojoNumber> lCollection, Collection<PojoNumber> rCollection)  throws NullArrayRefException, InvalidDataException
+    {
+
+        if (null != lCollection) {
+            for (PojoNumber item : lCollection) {
+                String name = item.getName();
+                if (name.equals("")) {
+                    throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
+                }
+                if (null == name) {
+                    throw new InvalidDataException(INVALID_DATA_UNDEF_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
+                }
+            }
+        }
+
+        if (null != rCollection) {
+            for (PojoNumber item : rCollection) {
+                String name = item.getName();
+                if (name.equals("")) {
+                    throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
+                }
+                if (null == name) {
+                    throw new InvalidDataException(INVALID_DATA_UNDEF_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
+                }
+            }
+        }
+
+        System.out.println("Left data:");
+        System.out.println(lCollection.toString());
+        System.out.println("Right data:");
+        System.out.println(rCollection.toString());
+
+        HashSet<PojoNumber> result = arrayHelper.innerUnion(lCollection, rCollection);
+
+        System.out.println("Result data:");
+        System.out.println(result.toString());
+        return result;
+    }
+
+    public HashSet<PojoNumber> outerUnion(Collection<PojoNumber> lCollection, Collection<PojoNumber> rCollection)  throws NullArrayRefException, InvalidDataException
+    {
+        if (null != lCollection) {
+            for (PojoNumber item : lCollection) {
+                String name = item.getName();
+                if (name.equals("")) {
+                    throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
+                }
+                if (null == name) {
+                    throw new InvalidDataException(INVALID_DATA_UNDEF_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
+                }
+            }
+        }
+
+        if (null != rCollection) {
+            for (PojoNumber item : rCollection) {
+                String name = item.getName();
+                if (name.equals("")) {
+                    throw new InvalidDataException(INVALID_DATA_EMPTY_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
+                }
+                if (null == name) {
+                    throw new InvalidDataException(INVALID_DATA_UNDEF_NAME_EXCEPTION, INVALID_DATA_ECODE_EXCEPTION);
+                }
+            }
+        }
+
+        System.out.println("Left data:");
+        System.out.println(lCollection.toString());
+        System.out.println("Right data:");
+        System.out.println(rCollection.toString());
+
+        HashSet<PojoNumber> result = arrayHelper.outerUnion(lCollection, rCollection);
+
+        System.out.println("Result data:");
+        System.out.println(result.toString());
+        return result;
+
+
+
+    }
+
 
 
     public static void main(String[] args) {
