@@ -14,7 +14,7 @@ public class ArrayHelper<T> {
     private static final String NULL_ARRAY_RREF_MES_EXCEPTION = "Input param rArray reference is null";
     private static final String NULL_ARRAY_REF_MES_EXCEPTION = "Input params lArray and rArray references are nulls";
 
-
+    //local code review (vtegza): give descriptive names to your variables @ 27.04.15
     public HashSet<T> merge(Collection<T> lCollection, Collection<T> rCollection) throws NullArrayRefException
     {
         if (null == lCollection && null == rCollection)

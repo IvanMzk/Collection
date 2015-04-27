@@ -2,14 +2,14 @@ package arrayhelper.builder;
 
 import arrayhelper.exception.InvalidDataException;
 import arrayhelper.exception.NullArrayRefException;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 /**
  * Created by ivan on 26.04.2015.
@@ -38,6 +38,9 @@ public class InnerUnionTest {
 
     }
 
+    //local code review (vtegza): use generics @ 27.04.15
+    //local code review (vtegza): create input values in test method @ 27.04.15
+    //local code review (vtegza): prefear plain input instead of generated inputs @ 27.04.15
     protected Collection getTestCollection(int[] array){
 
         if (null != array) {
@@ -73,6 +76,7 @@ public class InnerUnionTest {
         //ivoke method on class to test
         HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
         //assert returned value
+        //local code review (vtegza): use assertEquals @ 27.04.15
         assertTrue(expectedValue.equals(returnedValue));
 
     }
@@ -94,6 +98,7 @@ public class InnerUnionTest {
         //ivoke method on class to test
         HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
         //assert returned value
+        //local code review (vtegza): use assertEquals @ 27.04.15
         assertTrue(expectedValue.equals(returnedValue));
     }
 
@@ -114,6 +119,7 @@ public class InnerUnionTest {
         //ivoke method on class to test
         HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
         //assert returned value
+        //local code review (vtegza): use assertEquals @ 27.04.15
         assertTrue(expectedValue.equals(returnedValue));
     }
 
@@ -134,6 +140,7 @@ public class InnerUnionTest {
 
         //ivoke method on class to test
         try {
+            //local code review (vtegza): no need for return value @ 27.04.15
             HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
             fail("Exception expected");
         }
@@ -141,6 +148,7 @@ public class InnerUnionTest {
         {
             //assert returned value
             System.out.println(e.getErrorMessage());
+            //local code review (vtegza): use assertEquals @ 27.04.15
             assertTrue(expectedValue.equals(e.getErrorCode()));
         }
     }
@@ -161,6 +169,7 @@ public class InnerUnionTest {
 
         //ivoke method on class to test
         try {
+            //local code review (vtegza): no need for return value @ 27.04.15
             HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
             fail("Exception expected");
         }
@@ -186,8 +195,9 @@ public class InnerUnionTest {
         //init expected value
         String expectedValue = "Invalid data";
 
-        //ivoke method on class to test
+        //invoke method on class to test
         try {
+            //local code review (vtegza): no need for return value @ 27.04.15
             HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
             fail("Exception expected");
         }
@@ -195,6 +205,7 @@ public class InnerUnionTest {
         {
             //assert returned value
             System.out.println(e.getErrorMessage());
+            //local code review (vtegza): use assertEquals @ 27.04.15
             assertTrue(expectedValue.equals(e.getErrorCode()));
 
         }
@@ -214,8 +225,9 @@ public class InnerUnionTest {
         //init expected value
         String expectedValue = "Invalid data";
 
-        //ivoke method on class to test
+        //invoke method on class to test
         try {
+            //local code review (vtegza): no need for return value @ 27.04.15
             HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
             fail("Exception expected");
         }
@@ -223,6 +235,7 @@ public class InnerUnionTest {
         {
             //assert returned value
             System.out.println(e.getErrorMessage());
+            //local code review (vtegza): use assertEquals @ 27.04.15
             assertTrue(expectedValue.equals(e.getErrorCode()));
 
         }
@@ -242,8 +255,9 @@ public class InnerUnionTest {
         //init expected value
         String expectedValue = "Invalid data";
 
-        //ivoke method on class to test
+        //invoke method on class to test
         try {
+            //local code review (vtegza): no need for return value @ 27.04.15
             HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
             fail("Exception expected");
         }
@@ -251,6 +265,7 @@ public class InnerUnionTest {
         {
             //assert returned value
             System.out.println(e.getErrorMessage());
+            //local code review (vtegza): use assertEquals @ 27.04.15
             assertTrue(expectedValue.equals(e.getErrorCode()));
 
         }
@@ -272,6 +287,7 @@ public class InnerUnionTest {
 
         //ivoke method on class to test
         try {
+            //local code review (vtegza): no need for return value @ 27.04.15
             HashSet<PojoNumber> returnedValue = testClass.innerUnion(lArray, rArray);
             fail("Exception expected");
         }
@@ -279,6 +295,7 @@ public class InnerUnionTest {
         {
             //assert returned value
             System.out.println(e.getErrorMessage());
+            //local code review (vtegza): use assertEquals @ 27.04.15
             assertTrue(expectedValue.equals(e.getErrorCode()));
 
         }

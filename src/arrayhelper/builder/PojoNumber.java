@@ -3,6 +3,7 @@ package arrayhelper.builder;
 /**
  * Created by ivann on 20.04.15.
  */
+//local code review (vtegza): no need for final here
 final public class PojoNumber implements Comparable<PojoNumber> {
 
     private final int number;   //mandatory
@@ -56,7 +57,7 @@ final public class PojoNumber implements Comparable<PojoNumber> {
 
         private final int number;
         private String name;
-
+        //local code review (vtegza): no builder method. Constructor should not be used as data supply for builder
         public PojoNumberBuilder(int number) {
             this.number = number;
         }

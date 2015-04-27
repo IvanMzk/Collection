@@ -2,7 +2,6 @@ package arrayhelper.builder;
 
 import arrayhelper.exception.InvalidDataException;
 import arrayhelper.exception.NullArrayRefException;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -15,6 +14,7 @@ import static junit.framework.Assert.fail;
 /**
  * Created by ivan on 26.04.2015.
  */
+//local code review (vtegza): same as in InnerUnionTest @ 27.04.15
 public class MergeTest {
 
     private static final String[] NUMBER_NAME = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
